@@ -1143,7 +1143,7 @@ function renderTaskCard(t){
     +'<button class="task-del" onclick="askDel(\'task\',\''+t.fbKey+'\')"><svg viewBox="0 0 16 16"><polyline points="2 4 4 4 14 4"/><path d="M13 4l-.7 9H3.7L3 4"/></svg></button>'
     +'</div>'
     +'</div>'
-    +(t.notes?'<div class="task-notes">'+e(t.notes)+'</div>':'')
+    +(t.description?'<div class="task-notes">'+e(t.description)+'</div>':'')
     +'<div class="task-chips">'
     +'<span class="spill" style="background:'+pc[0]+';color:'+pc[1]+'">'+e(t.priority||'—')+'</span>'
     +'<span class="spill" style="background:'+sc[0]+';color:'+sc[1]+'">'+e(t.status||'—')+'</span>'
@@ -1160,7 +1160,7 @@ function doSearch(){
   if(!q){renderTasksView();return;}
   var orig=tasks;
   tasks=orig.filter(function(t){
-    return(t.task||'').toLowerCase().includes(q)||(t.assigned||'').toLowerCase().includes(q)||(t.notes||'').toLowerCase().includes(q);
+    return(t.task||'').toLowerCase().includes(q)||(t.assigned||'').toLowerCase().includes(q)||(t.description||'').toLowerCase().includes(q);
   });
   renderTasksView();
   tasks=orig;
