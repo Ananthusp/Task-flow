@@ -398,6 +398,29 @@ select.mi{cursor:pointer}
 .cl-item-del{width:24px;height:24px;border:none;background:none;color:var(--muted2);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;flex-shrink:0;transition:all .12s}
 .cl-item-del:hover{background:var(--red-bg);color:var(--red)}
 .cl-item-del svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+/* ── IN-CARD CHECKLIST ── */
+.tc-cl-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0;margin-top:4px;overflow:hidden}
+.tc-cl-head{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background .12s}
+.tc-cl-head:hover{background:var(--surface3)}
+.tc-cl-chevron{width:13px;height:13px;stroke:var(--muted2);fill:none;stroke-width:2;stroke-linecap:round;transition:transform .2s;flex-shrink:0}
+.tc-cl-chevron.open{transform:rotate(180deg)}
+.tc-cl-body{display:none;padding:0 10px 8px}
+.tc-cl-body.open{display:block}
+.tc-cl-item{display:flex;align-items:center;gap:8px;padding:5px 2px;border-radius:7px;cursor:pointer;transition:background .12s;user-select:none;-webkit-user-select:none}
+.tc-cl-item:hover{background:var(--surface3)}
+.tc-cl-item:active{opacity:.7}
+.tc-cl-chk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:none;pointer-events:none}
+.tc-cl-chk.on{background:var(--green);border-color:var(--green)}
+.tc-cl-chk svg{width:9px;height:9px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;display:block}
+.tc-cl-text{font-size:12.5px;color:var(--text);line-height:1.4;pointer-events:none;flex:1}
+.tc-cl-text.done{text-decoration:line-through;color:var(--muted)}
+/* ── TASK EDIT BTN ── */
+.task-edit{width:26px;height:26px;border-radius:7px;border:none;background:none;color:var(--muted2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transition:all .12s}
+.task-card:hover .task-edit,.task-card:active .task-edit{opacity:1}
+.task-edit:hover{background:var(--accent-bg);color:var(--accent)}
+.task-edit svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+/* ── STATS / CONTENT SEPARATOR ── */
+.section-divider{height:1px;background:var(--border);margin:0 0 1.1rem;border:none}
 </style>
 </head>
 <body>
@@ -408,8 +431,10 @@ select.mi{cursor:pointer}
 <!-- ═══ SIDEBAR ═══ -->
 <div class="sidebar" id="sidebar">
   <div class="sb-brand">
-    <img class="sb-logo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/wAARCABkAGQDASIAAhEBAxEB/8QAGwABAAMBAQEBAAAAAAAAAAAAAAQFBgMCB//EADYQAAIBAwIEBAMGBgMAAAAAAAECAwAEEQUSITFBUWEGEyJxoRQykaLB0SMzQlJisvBjgsL/xAAXAQEBAQEAAAAAAAAAAAAAAAAAAQID/8QAGxEBAQEBAAMAAAAAAAAAAAAAAAERAiEx/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=" alt="Solec"/>
-    <div><div class="sb-brand-name">Solec</div><div class="sb-urole">Task Manager</div></div>
+    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </div>
+    <div><div class="sb-brand-name">Solec</div><div class="sb-urole" style="font-size:10px;color:var(--muted)">Task Manager</div></div>
   </div>
   <div class="sb-nav">
     <div class="sb-section">Main</div>
@@ -439,6 +464,11 @@ select.mi{cursor:pointer}
       <div class="sb-item-icon"><svg viewBox="0 0 16 16"><circle cx="8" cy="6" r="3"/><path d="M2 14s-1 0-1-1 1-4 7-4 7 3 7 4-1 1-1 1H2z"/></svg></div>
       My Profile
     </div>
+    <div class="sb-item" onclick="document.getElementById('logo-file-input').click()">
+      <div class="sb-item-icon"><svg viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 10l4-4 3 3 2-2 5 5"/><circle cx="11" cy="6.5" r="1.5"/></svg></div>
+      Change Logo
+    </div>
+    <input type="file" id="logo-file-input" accept="image/*" style="display:none" onchange="handleLogoUpload(event)"/>
   </div>
   <div class="sb-bottom">
     <div class="sb-user" onclick="openNameModal();closeSidebar()">
@@ -554,11 +584,19 @@ select.mi{cursor:pointer}
     </div>
     <!-- Tab: Checklist -->
     <div class="modal-body" id="tm-pane-checklist" style="display:none">
-      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">Add steps or sub-tasks. Tap <strong style="color:var(--text)">+ Add item</strong> or type and press Enter.</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">Add steps or sub-tasks. Tap <strong style="color:var(--text)">+ Add</strong> or press Enter.</div>
+      <!-- Live progress preview -->
+      <div id="cl-progress-preview" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <span style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.07em">Progress</span>
+          <span class="cl-prog-lbl" style="font-size:12px;font-weight:600;color:var(--accent)">0%</span>
+        </div>
+        <div class="cl-bar-wrap"><div class="cl-bar" style="width:0%;transition:width .3s"></div></div>
+      </div>
       <div id="cl-items-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
       <div style="display:flex;gap:8px;align-items:center">
         <input class="mi" id="cl-new-input" placeholder="Add a checklist item…" type="text" style="flex:1" onkeydown="clInputKey(event)"/>
-        <button onclick="addClItem()" style="padding:9px 14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">+ Add</button>
+        <button onclick="addClItem()" style="padding:9px 14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(37,99,235,.3)">+ Add</button>
       </div>
     </div>
     <div class="modal-foot">
@@ -623,6 +661,42 @@ select.mi{cursor:pointer}
   </div>
 </div>
 
+<!-- Edit Task -->
+<div class="modal-overlay" id="edit-task-modal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-head">
+      <div class="modal-title">Edit Task</div>
+      <button class="modal-close" onclick="closeModal('edit-task-modal')"><svg viewBox="0 0 16 16"><path d="M2 2l12 12M14 2L2 14"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="mfield"><div class="ml">Title <span style="color:var(--red)">*</span></div><input class="mi" id="et-title" placeholder="Task title" type="text"/></div>
+      <div class="mfield"><div class="ml">Description <span class="opt">optional</span></div><textarea class="mi" id="et-desc" placeholder="Add more details…" style="min-height:60px"></textarea></div>
+      <div class="mfield"><div class="ml">Status</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+          <button class="pri-opt" id="es-pending" onclick="setEditStatus('Pending')">⏳ Pending</button>
+          <button class="pri-opt" id="es-progress" onclick="setEditStatus('In Progress')">🔄 In Progress</button>
+          <button class="pri-opt sel-low" id="es-done" onclick="setEditStatus('Done')">✅ Done</button>
+        </div>
+      </div>
+      <div class="mfield"><div class="ml">Priority</div>
+        <div class="mi-pri">
+          <button class="pri-opt" id="ep-high" onclick="setEditPri('High')">🔴 High</button>
+          <button class="pri-opt sel-med" id="ep-med" onclick="setEditPri('Medium')">🟡 Medium</button>
+          <button class="pri-opt" id="ep-low" onclick="setEditPri('Low')">🟢 Low</button>
+        </div>
+      </div>
+      <div class="mfield-row">
+        <div><div class="ml">Assign to</div><select class="mi" id="et-assign"><option value="">— Unassigned —</option></select></div>
+        <div><div class="ml">Due Date</div><input class="mi" id="et-due" type="date"/></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="cancel-btn" onclick="closeModal('edit-task-modal')">Cancel</button>
+      <button class="submit-btn" id="et-submit" onclick="saveEditTask()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- Confirm Delete -->
 <div class="confirm-overlay" id="confirm-ovl">
   <div class="confirm-box">
@@ -681,8 +755,9 @@ var projEmoji=['📁','🚀','⚡','🎯','🔧','📊','🏗️','💡'];
 
 window.onload=function(){
   if(localStorage.getItem('tf_dark')==='1')document.body.setAttribute('data-dark','');
+  var savedLogo=localStorage.getItem('tf_logo');
+  if(savedLogo)applyLogo(savedLogo);
   setUserDisplay(USERNAME,USERROLE);
-  document.getElementById('tm-raised').value=USERNAME;
   document.getElementById('nm-name').value=USERNAME;
   document.getElementById('nm-role').value=USERROLE;
   db.ref('projects').on('value',function(snap){
@@ -690,7 +765,10 @@ window.onload=function(){
     snap.forEach(function(c){projects.push(Object.assign({fbKey:c.key},c.val()));});
     setConn('ok');
     if(curView==='projects')renderProjects();
-  },function(){setConn('err');});
+  },function(err){
+    setConn('err');
+    document.getElementById('main-content').innerHTML='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="empty-title">Connection failed</div><div class="empty-sub">Check your internet connection and reload the page.</div></div>';
+  });
   db.ref('team').on('value',function(snap){
     team=[];
     snap.forEach(function(c){team.push(Object.assign({fbKey:c.key},c.val()));});
@@ -803,13 +881,6 @@ function rebuildTeamDrop(){
     sel.appendChild(o);
   });
 }
-function rebuildProjDrop(){
-  var sel=document.getElementById('tm-proj');sel.innerHTML='';
-  projects.forEach(function(p){
-    var o=document.createElement('option');o.value=p.fbKey;o.textContent=p.name;sel.appendChild(o);
-  });
-  if(curProj)sel.value=curProj.fbKey;
-}
 
 // ── Navigation ──
 function setSBActive(id){
@@ -919,6 +990,7 @@ function renderProjects(){
     +'<div class="stat-card"><div class="stat-label">Completed</div><div class="stat-num" style="color:var(--green)">'+done+'</div></div>'
     +'</div>';
   html+='<div class="sec-head"><div><div class="sec-title">Your Projects</div><div class="sec-sub">'+total+' project'+(total!==1?'s':'')+'</div></div></div>';
+  html+='<hr class="section-divider" style="margin-top:0"/>';
   html+='<div class="proj-grid">';
   projects.forEach(function(p,i){
     var sc=stsC[p.status]||['var(--surface2)','var(--muted2)'];
@@ -959,6 +1031,7 @@ function renderTasksView(){
     +'<div class="stat-card"><div class="stat-label">Done</div><div class="stat-num" style="color:var(--green)">'+done+'</div></div>'
     +'</div>';
   var ft=getFilteredTasks();
+  html+='<hr class="section-divider"/>';
   var activeCount=(filterStatus!=='all'?1:0)+(filterPriority!=='all'?1:0)+(filterAssigned!=='all'?1:0);
   if(!ft.length){
     html+='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>'
@@ -970,6 +1043,48 @@ function renderTasksView(){
     html+='</div>';
   }
   document.getElementById('main-content').innerHTML=html;
+}
+
+function parseChecklist(str){
+  if(!str)return[];
+  return str.split(',').map(function(s){s=s.trim();return{done:s.startsWith('[x]'),text:s.replace(/^\[x\]\s*/,'').replace(/^\[ \]\s*/,'')};}).filter(function(i){return i.text;});
+}
+function serializeChecklist(items){
+  return items.map(function(i){return(i.done?'[x] ':'')+i.text;}).join(',');
+}
+
+function toggleChecklistItem(fbKey,idx){
+  var t=tasks.find(function(x){return x.fbKey===fbKey;});
+  if(!t)return;
+  var items=parseChecklist(t.checklist);
+  if(!items[idx])return;
+  items[idx].done=!items[idx].done;
+  var newStr=serializeChecklist(items);
+  t.checklist=newStr;
+  // Update progress bar + label immediately in DOM
+  var card=document.getElementById('tc-'+fbKey);
+  if(card){
+    var dc=items.filter(function(i){return i.done;}).length;
+    var total=items.length;
+    var pct=Math.round(dc/total*100);
+    var bar=card.querySelector('.cl-bar');
+    var lbl=card.querySelector('.cl-label');
+    var pctLbl=card.querySelector('.cl-pct');
+    if(bar)bar.style.width=pct+'%';
+    if(lbl)lbl.textContent=dc+'/'+total+' done';
+    if(pctLbl)pctLbl.textContent=pct+'%';
+    // Toggle the checkbox visually
+    var chks=card.querySelectorAll('.tc-cl-chk');
+    var chk=chks[idx];
+    if(chk){
+      chk.classList.toggle('on',items[idx].done);
+      chk.innerHTML=items[idx].done?'<svg viewBox="0 0 10 10"><polyline points="1.5 5 4 8 8.5 2"/></svg>':'';
+    }
+    var txts=card.querySelectorAll('.tc-cl-text');
+    if(txts[idx])txts[idx].classList.toggle('done',items[idx].done);
+  }
+  // Save to Firebase silently
+  db.ref('tasks/'+fbKey).update({checklist:newStr});
 }
 
 function renderTaskCard(t){
@@ -986,15 +1101,35 @@ function renderTaskCard(t){
     var ov=dd<td&&!done;
     dueStr='<span class="task-due'+(ov?' ov':'')+'">📅 '+(ov?'⚠ ':'')+fd(t.due)+'</span>';
   }
+  // Build checklist block — collapsible
   var cl='';
-  if(t.checklist){
-    var its=t.checklist.split(',').map(function(s){return s.trim();}).filter(Boolean);
-    if(its.length){
-      var dc=its.filter(function(i){return i.startsWith('[x]');}).length;
-      var pct=Math.round(dc/its.length*100);
-      cl='<div class="cl-bar-wrap"><div class="cl-bar" style="width:'+pct+'%"></div></div>'
-        +'<div class="cl-label">'+dc+'/'+its.length+' checklist items done</div>';
-    }
+  var items=parseChecklist(t.checklist);
+  if(items.length){
+    var dc=items.filter(function(i){return i.done;}).length;
+    var pct=Math.round(dc/items.length*100);
+    var barColor=pct===100?'var(--green)':'var(--accent)';
+    var pctColor=pct===100?'var(--green-text)':'var(--accent)';
+    cl='<div class="tc-cl-wrap">'
+      // Clickable header to expand/collapse
+      +'<div class="tc-cl-head" onclick="toggleClExpand(this)">'
+      +'<span style="font-size:10px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:.07em">Checklist</span>'
+      +'<div style="flex:1;margin:0 8px;height:3px;background:var(--surface3);border-radius:2px;overflow:hidden">'
+      +'<div style="height:100%;width:'+pct+'%;background:'+barColor+';border-radius:2px;transition:width .3s" class="cl-bar"></div></div>'
+      +'<span style="font-size:11px;font-weight:700;color:'+pctColor+'" class="cl-pct">'+pct+'%</span>'
+      +'<span style="font-size:11px;color:var(--muted);margin-left:4px" class="cl-label">'+dc+'/'+items.length+'</span>'
+      +'<svg class="tc-cl-chevron" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"/></svg>'
+      +'</div>'
+      // Collapsible body
+      +'<div class="tc-cl-body">';
+    items.forEach(function(item,idx){
+      cl+='<div class="tc-cl-item" onclick="toggleChecklistItem(\''+t.fbKey+'\','+idx+')">'
+        +'<div class="tc-cl-chk'+(item.done?' on':'')+'">'
+        +(item.done?'<svg viewBox="0 0 10 10"><polyline points="1.5 5 4 8 8.5 2"/></svg>':'')
+        +'</div>'
+        +'<span class="tc-cl-text'+(item.done?' done':'')+'">'+e(item.text)+'</span>'
+        +'</div>';
+    });
+    cl+='</div></div>';
   }
   var projTag=t.projectName?'<span class="task-proj-tag">'+e(t.projectName)+'</span>':'';
   return '<div class="task-card'+(done?' done-card':'')+'" id="tc-'+t.fbKey+'">'
@@ -1003,7 +1138,10 @@ function renderTaskCard(t){
     +'<div class="task-chk'+(done?' on':'')+'" onclick="toggleTask(\''+t.fbKey+'\',\''+t.status+'\')">'
     +(done?'<svg viewBox="0 0 10 10"><polyline points="1.5 5 4 8 8.5 2"/></svg>':'')+'</div>'
     +'<div class="task-name'+(done?' x':'')+'">'+e(t.task)+'</div></div>'
+    +'<div style="display:flex;gap:2px;flex-shrink:0">'
+    +'<button class="task-edit" onclick="openEditTask(\''+t.fbKey+'\')"><svg viewBox="0 0 16 16"><path d="M11 2l3 3-8 8H3v-3L11 2z"/></svg></button>'
     +'<button class="task-del" onclick="askDel(\'task\',\''+t.fbKey+'\')"><svg viewBox="0 0 16 16"><polyline points="2 4 4 4 14 4"/><path d="M13 4l-.7 9H3.7L3 4"/></svg></button>'
+    +'</div>'
     +'</div>'
     +(t.notes?'<div class="task-notes">'+e(t.notes)+'</div>':'')
     +'<div class="task-chips">'
@@ -1037,6 +1175,107 @@ function toggleTask(fbKey,cur){
       else if(curView==='deadlines')goDeadlines();
     },120);
   });
+}
+
+function toggleClExpand(headerEl){
+  var body=headerEl.nextElementSibling;
+  var chevron=headerEl.querySelector('.tc-cl-chevron');
+  var isOpen=body.classList.toggle('open');
+  if(chevron)chevron.classList.toggle('open',isOpen);
+}
+
+// ── Edit Task ──
+var editingFbKey=null,editSelStatus='Pending',editSelPri='Medium';
+function openEditTask(fbKey){
+  var t=tasks.find(function(x){return x.fbKey===fbKey;});
+  if(!t)return;
+  editingFbKey=fbKey;
+  document.getElementById('et-title').value=t.task||'';
+  document.getElementById('et-desc').value=t.description||'';
+  document.getElementById('et-due').value=t.due||'';
+  // Populate assign dropdown
+  var sel=document.getElementById('et-assign');
+  sel.innerHTML='<option value="">— Unassigned —</option>';
+  team.forEach(function(m){
+    var o=document.createElement('option');
+    o.value=m.name+(m.designation?' ('+m.designation+')':'');
+    o.textContent=m.name+(m.designation?' — '+m.designation:'');
+    sel.appendChild(o);
+  });
+  sel.value=t.assigned||'';
+  setEditStatus(t.status||'Pending');
+  setEditPri(t.priority||'Medium');
+  openModal('edit-task-modal');
+  setTimeout(function(){document.getElementById('et-title').focus();},100);
+}
+function setEditStatus(s){
+  editSelStatus=s;
+  var map={Pending:'es-pending','In Progress':'es-progress',Done:'es-done'};
+  ['es-pending','es-progress','es-done'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.className='pri-opt';
+  });
+  var el=document.getElementById(map[s]);
+  if(el)el.className='pri-opt '+(s==='Pending'?'sel-med':s==='In Progress'?'sel-high':'sel-low');
+}
+function setEditPri(p){
+  editSelPri=p;
+  document.getElementById('ep-high').className='pri-opt'+(p==='High'?' sel-high':'');
+  document.getElementById('ep-med').className='pri-opt'+(p==='Medium'?' sel-med':'');
+  document.getElementById('ep-low').className='pri-opt'+(p==='Low'?' sel-low':'');
+}
+function saveEditTask(){
+  var title=document.getElementById('et-title').value.trim();
+  if(!title){toast('Title is required');return;}
+  document.getElementById('et-submit').disabled=true;
+  document.getElementById('et-submit').textContent='Saving…';
+  db.ref('tasks/'+editingFbKey).update({
+    task:title,
+    description:document.getElementById('et-desc').value.trim(),
+    status:editSelStatus,
+    priority:editSelPri,
+    assigned:document.getElementById('et-assign').value,
+    due:document.getElementById('et-due').value
+  },function(err){
+    document.getElementById('et-submit').disabled=false;
+    document.getElementById('et-submit').textContent='Save Changes';
+    if(!err){
+      closeModal('edit-task-modal');toast('✓ Task updated');
+      setTimeout(function(){
+        if(curView==='tasks')loadTasks();
+        else if(curView==='alltasks')goAllTasks();
+        else if(curView==='deadlines')goDeadlines();
+      },150);
+    } else toast('Error saving');
+  });
+}
+
+// ── Logo upload ──
+function handleLogoUpload(ev){
+  var file=ev.target.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var dataUrl=e.target.result;
+    localStorage.setItem('tf_logo',dataUrl);
+    applyLogo(dataUrl);
+    toast('✓ Logo updated');
+  };
+  reader.readAsDataURL(file);
+  ev.target.value='';
+}
+function applyLogo(src){
+  var brand=document.querySelector('.sb-brand');
+  if(!brand)return;
+  var existing=brand.querySelector('.sb-logo-img');
+  if(existing){existing.src=src;return;}
+  var iconDiv=brand.querySelector('div[style*="border-radius:10px"]');
+  if(iconDiv){
+    var img=document.createElement('img');
+    img.className='sb-logo-img';
+    img.src=src;
+    img.style.cssText='height:36px;width:auto;max-width:120px;object-fit:contain;border-radius:8px';
+    brand.replaceChild(img,iconDiv);
+  }
 }
 
 // ── Modals ──
@@ -1086,12 +1325,26 @@ function renderClItems(){
   clItems.forEach(function(item,i){
     var d=document.createElement('div');
     d.className='cl-item';
-    d.innerHTML='<button class="cl-item-chk'+(item.done?' on':'')+'" onclick="toggleClItem('+i+')">'+(item.done?'<svg viewBox="0 0 10 10"><polyline points="1.5 5 4 8 8.5 2"/></svg>':'')+'</button>'
+    d.innerHTML='<button class="cl-item-chk'+(item.done?' on':'')+'" onclick="toggleClItem('+i+')">'
+      +(item.done?'<svg viewBox="0 0 10 10"><polyline points="1.5 5 4 8 8.5 2"/></svg>':'')
+      +'</button>'
       +'<span class="cl-item-text'+(item.done?' done':'')+'">'+e(item.text)+'</span>'
       +'<button class="cl-item-del" onclick="removeClItem('+i+')"><svg viewBox="0 0 16 16"><path d="M2 2l12 12M14 2L2 14"/></svg></button>';
     c.appendChild(d);
   });
   updateClBadge();
+  // Live progress preview in checklist tab
+  var total=clItems.length;
+  var dc=clItems.filter(function(i){return i.done;}).length;
+  var pct=total>0?Math.round(dc/total*100):0;
+  var prev=document.getElementById('cl-progress-preview');
+  if(prev){
+    prev.style.display=total>0?'block':'none';
+    var bar=prev.querySelector('.cl-bar');
+    var lbl=prev.querySelector('.cl-prog-lbl');
+    if(bar){bar.style.width=pct+'%';bar.style.background=pct===100?'var(--green)':'var(--accent)';}
+    if(lbl)lbl.textContent=pct+'% complete — '+dc+'/'+total+' done';
+  }
 }
 function updateClBadge(){
   var badge=document.getElementById('cl-count-badge');
@@ -1181,7 +1434,6 @@ function saveName(){
   USERNAME=n;USERROLE=r||'Team Member';
   localStorage.setItem('tf_name',USERNAME);localStorage.setItem('tf_role',USERROLE);
   setUserDisplay(USERNAME,USERROLE);
-  document.getElementById('tm-raised').value=USERNAME;
   closeModal('name-modal');toast('✓ Profile saved');
 }
 function setUserDisplay(name,role){
